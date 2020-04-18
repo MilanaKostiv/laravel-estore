@@ -32,11 +32,6 @@ a:hover {
   color: #878787;
 }
 
-/* http://meyerweb.com/eric/tools/css/reset/
-   v5.0.1 | 20191019
-   License: none (public domain)
-*/
-
 html,
 body,
 div,
@@ -187,7 +182,9 @@ body {
 }
 
 h1,
-h2 {
+h2,
+.product-section-subtitle,
+.product-section-price {
   font-family: "Montserrat", Arial, sans-serif;
   font-weight: bold;
 }
@@ -221,8 +218,46 @@ h2 {
   background: #e9e9e9;
 }
 
+.button-plain {
+  border: 1px solid !important;
+  background: transparent;
+}
+
 .button-container {
   margin: 50px 0;
+}
+
+form button[type=submit] {
+  border-style: none;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.might-like-section {
+  padding: 40px 0 70px;
+  background: #F5F5F5;
+}
+
+.might-like-section h2 {
+  padding-bottom: 30px;
+}
+
+.might-like-section .might-like-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 30px;
+}
+
+.might-like-section .might-like-product {
+  border: 1px solid #979797;
+  background: white;
+  padding: 30px 0 20px;
+  text-align: center;
+}
+
+.might-like-section .might-like-product-price {
+  color: #919191;
 }
 
 header {
@@ -293,3 +328,45 @@ footer {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 30px;
 }
+
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 60px 30px;
+  margin: 80px auto 80px;
+}
+
+.products .product-price {
+  color: #919191;
+}
+
+.product-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 120px;
+  padding: 100px 0 120px;
+}
+
+.product-section .product-section-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #979797;
+}
+
+.product-section .product-section-information p {
+  margin-bottom: 16px;
+}
+
+.product-section .product-section-subtitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #919191;
+}
+
+.product-section .product-section-price {
+  font-size: 38px;
+  color: #212121;
+  margin-bottom: 16px;
+}
+

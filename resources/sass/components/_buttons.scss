@@ -1,24 +1,27 @@
-.button{
+.button {
   border: 1px solid $text-color;
   padding: 12px 40px;
 
-  &:hover{
+  &:hover {
     color: $white;
     background: $text-color;
   }
 }
 
-.button-white{
+.button-white {
   border: 1px solid $white;
   padding: 12px 40px;
   color: $white;
 
-  &:hover{
+  &:hover {
     color: $text-color;
     background: $white;
   }
 }
-
+.button-plain {
+  border: 1px solid !important;
+  background: transparent;
+}
 .button-container {
   margin: 50px 0;
 }

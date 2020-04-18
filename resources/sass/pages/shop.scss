@@ -1,0 +1,10 @@
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 60px $gutter;
+  margin: 80px auto 80px;
+
+  .product-price {
+    color: $text-color-light;
+  }
+}
