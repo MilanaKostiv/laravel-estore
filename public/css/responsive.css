@@ -39,4 +39,21 @@
   .footer-content {
     text-align: center;
   }
+
+  .products {
+    grid-template-columns: 1fr;
+  }
+
+  .product-section {
+    grid-template-columns: 1fr;
+  }
+
+  .might-like-section .might-like-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-section-information {
+    text-align: center;
+  }
 }
+

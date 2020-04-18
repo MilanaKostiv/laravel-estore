@@ -8,6 +8,8 @@
 
 //Components
 @import 'components/buttons';
+@import 'components/forms';
+@import 'components/might-like';
 
 //Layout
 @import 'layout/header';
@@ -15,3 +17,5 @@
 
 //Pages
 @import 'pages/landing';
+@import 'pages/shop';
+@import 'pages/product';
