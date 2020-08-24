@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
+use App\Services\Product\ProductsService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-/*
- * Controller for product view.
+/**
+ * Controller for products management.
  */
 class ShopController extends Controller
 {
+    /**
+     * @var ProductsService
+     */
+    private $productService;
+
     /**
      * @var int
      */
@@ -20,13 +26,21 @@ class ShopController extends Controller
     private $proposedProductsPerPage = 4;
 
     /**
-     * Display a listing of the products.
+     * @param ProductsService $productService
+     */
+    public function __construct(ProductsService $productService)
+    {
+        $this->productService = $productService;
+    }
+
+    /**
+     * Display products list.
      *
      * @return \Illuminate\View\View
      */
     public function index(): \Illuminate\View\View
     {
-        $products = Product::inRandomOrder()->take($this->productsPerPage)->get();
+        $products = $this->productService->getInRandomOrder($this->productsPerPage);
 
         return view('shop')->with('products', $products);
     }
@@ -35,13 +49,18 @@ class ShopController extends Controller
      * Display the specified product.
      *
      * @param  string  $slug
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function show(string $slug): \Illuminate\View\View
+    public function show(string $slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
-        $mightAlsoLike = Product::where('slug', '!=', $slug)
-            ->inRandomOrder()->take($this->proposedProductsPerPage)->get();
+        try {
+            $product = $this->productService->getBySlug($slug);
+        } catch (ModelNotFoundException $e) {
+            session()->flash('errors', collect('Requested product does not exist!'));
+            return redirect()->route('shop.index');
+        }
+
+        $mightAlsoLike = $this->productService->getBySlugNotInRandomOrder($slug, $this->proposedProductsPerPage);
 
         return view('product')->with([
             'product' => $product,

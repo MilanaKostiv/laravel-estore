@@ -22,7 +22,7 @@
 
 <body>
 @include('partials.nav')
-
+@include('partials.errors')
 @yield('content')
 
 @include('partials.footer')

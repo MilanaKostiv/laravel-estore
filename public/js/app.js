@@ -19341,14 +19341,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ 0:
 /*!**********************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/responsive.scss ***!
+  !*** multi ./resources/js/app.js ./resources/sass/responsive.scss ./resources/sass/app.scss ***!
   \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! C:\Apache24\htdocs\lshopclean.local\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Apache24\htdocs\lshopclean.local\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\Apache24\htdocs\lshopclean.local\resources\sass\responsive.scss */"./resources/sass/responsive.scss");
+__webpack_require__(/*! C:\Apache24\htdocs\lshopclean.local\resources\sass\responsive.scss */"./resources/sass/responsive.scss");
+module.exports = __webpack_require__(/*! C:\Apache24\htdocs\lshopclean.local\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -10,12 +10,15 @@
         <div class="product-section-information">
             <h1 class="product-section-title">{{ $product->name }}</h1>
             <div class="product-section-subtitle"> {{ $product->details }}</div>
-            <div class="product-section-price">{{ $product->presentPrice() }}</div>
+            <div class="badge {{ $product->quantity > 0 ? 'badge-success' : 'badge-danger'}}"> {{ $product->quantity > 0 ? 'In Stock': 'Out Of Stock'}}</div>
+            <div class="product-section-price">{{ $product->formattedPrice }}</div>
             <p>{{ $product->description }}</p>
-            <form action="#" method="POST">
-                {{ csrf_field() }}
-                <button type="submit" class="button button-plain">Add to Cart</button>
-            </form>
+            @if ($product->quantity > 0)
+                <form action="{{ route('cart.store', $product) }}" method="POST">
+                    {{ csrf_field() }}
+                    <button type="submit" class="button button-plain">Add to Cart</button>
+                </form>
+            @endif
         </div>
     </div> <!-- end product-section -->
 
