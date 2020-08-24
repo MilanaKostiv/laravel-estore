@@ -10,7 +10,9 @@
 @import 'components/buttons';
 @import 'components/forms';
 @import 'components/might-like';
-
+@import 'components/alerts';
+@import 'components/badge';
+@import 'components/counter';
 //Layout
 @import 'layout/header';
 @import 'layout/footer';
@@ -19,3 +21,4 @@
 @import 'pages/landing';
 @import 'pages/shop';
 @import 'pages/product';
+@import 'pages/cart';

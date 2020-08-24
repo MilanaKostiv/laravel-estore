@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
+use App\Services\Product\ProductsService;
 
 /**
  * Controller for landing page.
@@ -15,13 +15,26 @@ class LandingController extends Controller
     private $productsPerPage = 8;
 
     /**
-     * Render the landing page.
+     * @var ProductsService
+     */
+    private $productService;
+
+    /**
+     * @param ProductsService $productService
+     */
+    public function __construct(ProductsService $productService)
+    {
+        $this->productService = $productService;
+    }
+
+    /**
+     * Render landing page.
      *
      * @return \Illuminate\View\View
      */
     public function index(): \Illuminate\View\View
     {
-        $products = Product::where('featured', true)->inRandomOrder()->take($this->productsPerPage)->get();
+        $products = $this->productService->getFeaturedInRandomOrder($this->productsPerPage);
 
         return view('landing')->with('products', $products);
     }

@@ -4,21 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Product extends Model
 {
-    /**
-     * Format a currency value.
-     *
-     * @return string
-     */
-    public function presentPrice(): string
-    {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-
-        return $formatter->formatCurrency($this->attributes['price'],'USD');
-    }
-
     /**
      * Generate image URL.
      *

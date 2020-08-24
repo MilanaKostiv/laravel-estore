@@ -9,7 +9,7 @@
                 <div class="product">
                     <a href="{{ route('shop.show', $product->slug) }}"><img src="{{ $product->presentImage() }}"></a>
                     <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
-                    <div class="product-price">{{ $product->presentPrice() }}</div>
+                    <div class="product-price">{{ $product->formattedPrice }}</div>
                 </div>
             @empty
             <div>No items found</div>

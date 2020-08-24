@@ -1,0 +1,26 @@
+.sprite{
+  background-image: url('../../images/plus-minus.png');
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  margin: 8px 5px;
+}
+.minus {
+  background-position: 0px 0px;
+}
+
+.plus {
+  background-position: -16px 0px;
+}
+
+.quantity-container{
+  display:flex;
+  margin: 8px 5px;
+
+  input{
+    height: 16px;
+    width: 32px;
+  }
+}
+
+

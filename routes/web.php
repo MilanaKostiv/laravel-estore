@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'LandingController@index')->name('landing.index');
 Route::get('/shop', 'ShopController@index')->name('shop.index');
 Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
+
+//Cart routes
+Route::post('/cart/{product}', 'CartController@store')->name('cart.store');
+Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::delete('/cart/destroy/{id}', 'CartController@destroy')->name('cart.destroy');
+Route::patch('/cart/{id}', 'CartController@update')->name('cart.update');
+
+//SaveForLater routes
+Route::post('/saveforlater/{id}','SaveForLaterController@store')->name('saveforlater.store');
+Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy')->name('saveforlater.destroy');
+Route::post('/saveforlater/movetocart/{id}', 'SaveForLaterController@moveToCart')->name('saveforlater.movetocart');

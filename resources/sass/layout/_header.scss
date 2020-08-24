@@ -26,6 +26,23 @@ header {
           color: darken($white, 10%);
         }
       }
+
+      .cart-count {
+        display: inline-block;
+        background: $cart-count;
+        color: $text-color;
+        border-radius: 50%;
+        font-size: 14px;
+        line-height: 0;
+
+        span {
+          display: inline-block;
+          padding-top: 50%;
+          padding-bottom: 50%;
+          margin-left:6px;
+          margin-right:6px;
+        }
+      }
     }
   }
 
@@ -53,4 +70,5 @@ header {
       margin-right: 14px;
     }
   }
+
 }
