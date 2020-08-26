@@ -16,7 +16,7 @@ class ProductsService
     private $priceFormatter;
 
     /**
-     * @var ProductRepository 
+     * @var ProductRepository
      */
     private $productRepository;
 
@@ -54,7 +54,7 @@ class ProductsService
      */
     public function getBySlugNotInRandomOrder(string $slug, int $limit): \Illuminate\Support\Collection
     {
-        $products  = $this->productRepository->findBySlugNotInRandomOrder($slug, $limit);
+        $products = $this->productRepository->findBySlugNotInRandomOrder($slug, $limit);
 
         return $this->priceFormatter->addFormattedPriceToProducts($products);
     }
@@ -62,12 +62,12 @@ class ProductsService
     /**
      * Get randomly ordered featured products.
      *
-     * @param $limit
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param int|null $limit
+     * @return \Illuminate\Support\Collection
      */
-    public function getFeaturedInRandomOrder(int $limit): \Illuminate\Support\Collection
+    public function getFeaturedInRandomOrder(int $limit = null): \Illuminate\Support\Collection
     {
-        $products =  $this->productRepository->findFeaturedInRandomOrder($limit);
+        $products = $this->productRepository->findFeaturedInRandomOrder($limit);
 
         return $this->priceFormatter->addFormattedPriceToProducts(($products));
     }
@@ -97,4 +97,16 @@ class ProductsService
         return $this->productRepository->findById($id);
     }
 
+    /**
+     * Get products from specified category.
+     *
+     * @param string $categorySlug
+     * @return \Illuminate\Support\Collection
+     */
+    public function getProductsInCategory(string $categorySlug)
+    {
+        $products = $this->productRepository->findProductsInCategory($categorySlug);
+
+        return $this->priceFormatter->addFormattedPriceToProducts(($products));
+    }
 }

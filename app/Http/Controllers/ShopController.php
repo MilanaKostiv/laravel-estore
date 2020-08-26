@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Category\CategoriesService;
 use App\Services\Product\ProductsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 /**
  * Controller for products management.
@@ -16,9 +19,14 @@ class ShopController extends Controller
     private $productService;
 
     /**
+     * @var CategoriesService
+     */
+    private $categoryService;
+
+    /**
      * @var int
      */
-    private $productsPerPage = 12;
+    private $productsPerPage = 9;
 
     /**
      * @var int Amount of products displayed in section "You might also like".
@@ -27,10 +35,12 @@ class ShopController extends Controller
 
     /**
      * @param ProductsService $productService
+     * @param CategoriesService $categoryService
      */
-    public function __construct(ProductsService $productService)
+    public function __construct(ProductsService $productService, CategoriesService $categoryService)
     {
         $this->productService = $productService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -40,15 +50,49 @@ class ShopController extends Controller
      */
     public function index(): \Illuminate\View\View
     {
-        $products = $this->productService->getInRandomOrder($this->productsPerPage);
+        $categories = $this->categoryService->getAllCategories();
 
-        return view('shop')->with('products', $products);
+        if (request()->category) {
+            $products = $this->productService->getProductsInCategory(request()->category);
+            $categoryName = optional($this->categoryService->getCategoryBySlug(request()->category))->name;
+        } else {
+            $products = $this->productService->getFeaturedInRandomOrder();
+            $categoryName = 'Featured';
+        }
+
+        if (request()->sort == 'low_high') {
+            $products = $products->sortBy('price');
+        } elseif (request()->sort == 'high_low') {
+            $products = $products->sortByDesc('price');
+        }
+
+        $page = Paginator::resolveCurrentPage();
+        $paginator = new LengthAwarePaginator(
+            $products->forPage($page, $this->productsPerPage),
+            $products->count(),
+            $this->productsPerPage,
+            Paginator::resolveCurrentPage(),
+            [
+                'path' => request()->url(),
+                'query' => request()->query()
+            ]
+        );
+
+        /** @var \Illuminate\Support\Collection $products */
+        $products = $paginator->getCollection();
+
+        return view('shop')->with([
+            'products' => $products,
+            'categories' => $categories,
+            'categoryName' => $categoryName,
+            'paginator' => $paginator
+        ]);
     }
 
     /**
      * Display the specified product.
      *
-     * @param  string  $slug
+     * @param  string $slug
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function show(string $slug)

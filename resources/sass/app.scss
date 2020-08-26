@@ -2,8 +2,8 @@
 @import 'abstracts/variables';
 
 //Base
-@import 'base/base';
 @import 'base/reset';
+@import 'base/base';
 @import 'base/typography';
 
 //Components
@@ -13,6 +13,9 @@
 @import 'components/alerts';
 @import 'components/badge';
 @import 'components/counter';
+@import 'components/pagination';
+@import 'components/sidebar';
+
 //Layout
 @import 'layout/header';
 @import 'layout/footer';
