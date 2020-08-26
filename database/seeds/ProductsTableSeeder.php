@@ -21,7 +21,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(1499, 2499),
                 'description' =>'Lorem '. $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/laptop-'.$i.'.png'
-            ]);
+            ])->categories()->attach(1);;
         }
 
         // Desktops
@@ -33,7 +33,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(2499, 4499),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/desktop-'.$i.'.png'
-            ]);
+            ])->categories()->attach(2);;
         }
 
         // Phones
@@ -45,7 +45,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(799, 1499),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/phone-'.$i.'.png'
-            ]);
+            ])->categories()->attach(3);;
         }
 
         // Tablets
@@ -57,7 +57,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(499, 1499),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/tablet-'.$i.'.png'
-            ]);
+            ])->categories()->attach(4);;
         }
 
         // TVs
@@ -69,7 +69,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(799, 1499),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/tv-'.$i.'.png'
-            ]);
+            ])->categories()->attach(5);;
         }
 
         // Cameras
@@ -81,7 +81,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(799, 2499),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/camera-'.$i.'.png'
-            ]);
+            ])->categories()->attach(6);;
         }
 
         // Appliances
@@ -93,7 +93,7 @@ class ProductsTableSeeder extends Seeder
                 'price' => rand(799, 1499),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => 'products/appliance-'.$i.'.png'
-            ]);
+            ])->categories()->attach(7);;
         }
 
         // Select random entries to be featured

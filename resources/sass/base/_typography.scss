@@ -20,3 +20,24 @@ h1 {
 h2 {
   font-size: 22px;
 }
+
+h1.stylish-heading {
+  margin-bottom: 60px;
+  position: relative;
+
+  &:before, &:after {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 66px;
+    height: 1px;
+    background: $text-color;
+    content: '';
+    display: block;
+  }
+
+  &:after {
+    bottom: -14px;
+    top: auto;
+  }
+}

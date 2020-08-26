@@ -26,12 +26,17 @@ class ProductRepository
     /**
      * Find randomly ordered featured products.
      *
-     * @param int $limit
+     * @param int|null $limit
      * @return \Illuminate\Support\Collection
      */
-    public function findFeaturedInRandomOrder(int $limit): \Illuminate\Support\Collection
+    public function findFeaturedInRandomOrder(int $limit = null): \Illuminate\Support\Collection
     {
-        return Product::inRandomOrder()->take($limit)->where('featured', true)->get();
+        /** @var \Illuminate\Database\Eloquent\Builder $productBuilder */
+        $productBuilder = Product::inRandomOrder()->where('featured', true);
+        if ($limit) {
+            $productBuilder->take($limit);
+        }
+        return $productBuilder->get();
     }
 
     /**
@@ -54,7 +59,7 @@ class ProductRepository
      */
     public function findBySlugNotInRandomOrder(string $slug, int $limit): \Illuminate\Support\Collection
     {
-         return Product::inRandomOrder()->take($limit)->where('slug', '!=', $slug)->get();
+        return Product::inRandomOrder()->take($limit)->where('slug', '!=', $slug)->get();
     }
 
     /**
@@ -68,5 +73,18 @@ class ProductRepository
     public function findById(int $id): Product
     {
         return Product::findOrFail($id);
+    }
+
+    /**
+     * Find products from specified category.
+     *
+     * @param string $categorySlug
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findProductsInCategory(string $categorySlug): \Illuminate\Database\Eloquent\Collection
+    {
+         return Product::with('categories')->whereHas('categories', function($query) use ($categorySlug) {
+            $query->where('slug', $categorySlug);
+        })->get();
     }
 }
