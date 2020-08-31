@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Services\Cart\CartService;
-use App\Services\Product\ProductPriceFormatter;
 use App\Services\Product\ProductsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Product;
 use Illuminate\Support\Facades\Validator;
+use App\Services\PriceFormatter;
+use Gloudemans\Shoppingcart\Exceptions\InvalidRowIDException;
 
 /**
  * Controller for cart management.
@@ -22,7 +23,7 @@ class CartController extends Controller
     private $cartService;
 
     /**
-     * @var ProductPriceFormatter
+     * @var PriceFormatter
      */
     private $priceFormatter;
 
@@ -31,14 +32,10 @@ class CartController extends Controller
      */
     private $productService;
 
-    /**
-     * @param CartService $cartService
-     * @param ProductPriceFormatter $priceFormatter
-     * @param ProductsService $productService
-     */
+
     public function __construct(
         CartService $cartService,
-        ProductPriceFormatter $priceFormatter,
+        PriceFormatter $priceFormatter,
         ProductsService $productService
     ) {
         $this->cartService = $cartService;
@@ -80,31 +77,67 @@ class CartController extends Controller
      */
     public function update(Request $request, $id): \Illuminate\Http\JsonResponse
     {
+        $success = false;
+        $errors = [];
+        $itemQty = null;
+        $itemSubtotal = null;
+        $total = $this->priceFormatter->formatPrice(Cart::total());
+        $subtotal = $this->priceFormatter->formatPrice(Cart::subtotal());
+        $quantity = Cart::count();
+        $tax = $this->priceFormatter->formatPrice(Cart::tax());
+
+        try {
+            $item = Cart::get($id);
+            $itemQty = $item->qty;
+            $itemSubtotal = $this->priceFormatter->formatPrice($item->subtotal());
+        } catch (InvalidRowIDException $e) {
+            $errors[] = 'The product was not found in cart.';
+        }
+
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|numeric'
         ]);
 
         if ($validator->fails()) {
-            session()->flash('errors', collect('Wrong quantity format'));
-            return response()->json(['success' => false], 400);
+            $errors[] = 'Wrong format of quantity!';
         }
-
         try {
             $product = $this->productService->getById($request->get('productId'));
         } catch (ModelNotFoundException $e) {
-            session()->flash('errors', collect('The product was not found.'));
-            return response()->json(['success' => false], 400);
+            $errors[] = 'The product was not found.';
         }
 
         if ($request->quantity > $product->quantity) {
-            session()->flash('errors', collect('We currently do not have enough items in stock.'));
-            return response()->json(['success' => false], 400);
+            $errors[] = 'We currently do not have enough items in stock.';
         }
 
-        Cart::update($id, $request->quantity);
+        if (empty($errors)) {
+            try {
+                $success = true;
+                $item = Cart::update($id, $request->quantity);
+                $itemQty = $item->qty;
+                $quantity = Cart::count();
+                $itemSubtotal = $this->priceFormatter->formatPrice($item->subtotal());
+                $total = $this->priceFormatter->formatPrice(Cart::total());
+                $subtotal = $this->priceFormatter->formatPrice(Cart::subtotal());
+                $tax = $this->priceFormatter->formatPrice(Cart::tax());
+            } catch (\Exception $e) {
+                $errors[] = 'Something went wrong!';
+            }
+        }
 
-        session()->flash('success_message', 'Quantity was updated successfully!');
-        return response()->json(['success' => true]);
+        $result = [
+            'success' => $success,
+            'errors' => $errors,
+            'quantity' => $quantity,
+            'itemSubtotal' => $itemSubtotal,
+            'itemQty' => $itemQty,
+            'total' => $total,
+            'subtotal' => $subtotal,
+            'tax' => $tax
+        ];
+
+        return response()->json($result);
     }
 
     /**
