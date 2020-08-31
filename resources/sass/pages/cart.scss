@@ -4,6 +4,19 @@
   grid-gap: 30px;
   margin: 60px auto;
 
+  .cart-table-row-wrapper {
+    position: relative;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255,255,255, 0.5); /* White w/ opacity */
+    display: none; /* Hidden by default */
+  }
+
   h2 {
     margin-bottom: 30px;
   }

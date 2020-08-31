@@ -182,6 +182,10 @@ strong {
   font-weight: bold;
 }
 
+.hide {
+  display: none;
+}
+
 body {
   font-family: "Roboto", Arial, sans-serif;
   font-size: 18px;
@@ -255,6 +259,28 @@ h1.stylish-heading:after {
 
 .button-container {
   margin: 50px 0;
+}
+
+.button-primary {
+  background: #3EBFA4;
+  color: white !important;
+  padding: 12px 40px;
+}
+
+.button-primary:hover {
+  background: #35a48d;
+}
+
+.button-primary:disabled {
+  background: #63cdb7;
+  cursor: not-allowed;
+}
+
+/* Add a right margin to each icon */
+
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
 }
 
 form button[type=submit] {
@@ -373,8 +399,16 @@ form button[type=submit] {
   background-position: 0px 0px;
 }
 
+.minus:hover {
+  cursor: pointer;
+}
+
 .plus {
   background-position: -16px 0px;
+}
+
+.plus:hover {
+  cursor: pointer;
 }
 
 .quantity-container {
@@ -597,6 +631,22 @@ footer {
   grid-template-columns: 2fr 1fr;
   grid-gap: 30px;
   margin: 60px auto;
+}
+
+.cart-section .cart-table-row-wrapper {
+  position: relative;
+}
+
+.cart-section .overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  /* White w/ opacity */
+  display: none;
+  /* Hidden by default */
 }
 
 .cart-section h2 {

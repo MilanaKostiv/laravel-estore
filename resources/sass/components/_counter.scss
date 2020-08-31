@@ -7,10 +7,18 @@
 }
 .minus {
   background-position: 0px 0px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .plus {
   background-position: -16px 0px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .quantity-container{
@@ -22,5 +30,3 @@
     width: 32px;
   }
 }
-
-

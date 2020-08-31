@@ -25,3 +25,24 @@
 .button-container {
   margin: 50px 0;
 }
+
+.button-primary {
+  background: $primary;
+  color: white !important;
+  padding: 12px 40px;
+
+  &:hover {
+    background: darken($primary, 7%);
+  }
+
+  &:disabled {
+    background: lighten($primary, 10%);
+    cursor: not-allowed;
+  }
+}
+
+/* Add a right margin to each icon */
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
+}
