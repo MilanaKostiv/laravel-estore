@@ -9,7 +9,7 @@
             <ul>
                 @foreach($categories as $category)
                     <li class="{{ request()->category == $category->slug ? 'active' : '' }}">
-                        <a href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                        <a href="{{ route('shop.index', ['category' => $category->slug, 'sort' => request()->sort]) }}">{{ $category->name }}</a>
                     </li>
                 @endforeach
             </ul>

@@ -39,16 +39,16 @@ class ProductPriceFormatter
     /**
      * Add formattedPrice property to products in collection.
      *
-     * @param \Illuminate\Support\Collection $products
+     * @param \Illuminate\Support\Collection $items
      * @return \Illuminate\Support\Collection
      */
-    public function addFormattedPriceToProducts(\Illuminate\Support\Collection $products): \Illuminate\Support\Collection
+    public function addFormattedPriceToProducts(\Illuminate\Support\Collection $items): \Illuminate\Support\Collection
     {
-        foreach ($products as $key => $product) {
-            isset($product->qty) ? $qty = $product->qty : $qty = 1;
-            $products[$key]->formattedPrice = $this->priceFormatter->formatPrice($product->price * $qty);
+        foreach ($items as $key => $item) {
+            isset($item->qty) ? $qty = $item->qty : $qty = 1;
+            $items[$key]->formattedPrice = $this->priceFormatter->formatPrice($item->price * $qty);
         }
 
-        return $products;
+        return $items;
     }
 }

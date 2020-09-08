@@ -4,6 +4,7 @@ namespace App\Services\Product;
 
 use App\Product;
 use App\Repositories\ProductRepository;
+use App\Services\SearchCriteria;
 
 /**
  * Service for getting product data.
@@ -11,23 +12,25 @@ use App\Repositories\ProductRepository;
 class ProductsService
 {
     /**
-     * @var ProductPriceFormatter
-     */
-    private $priceFormatter;
-
-    /**
      * @var ProductRepository
      */
     private $productRepository;
 
     /**
-     * @param ProductPriceFormatter $productPriceFormatter
-     * @param ProductRepository $productRepository
+     * @var SearchCriteria
      */
-    public function __construct(ProductPriceFormatter $productPriceFormatter, ProductRepository $productRepository)
-    {
-        $this->priceFormatter = $productPriceFormatter;
+    private $searchCriteria;
+
+    /**
+     * @param ProductRepository $productRepository
+     * @param SearchCriteria $searchCriteria
+     */
+    public function __construct(
+        ProductRepository $productRepository,
+        SearchCriteria $searchCriteria
+    ) {
         $this->productRepository = $productRepository;
+        $this->searchCriteria = $searchCriteria;
     }
 
     /**
@@ -40,48 +43,7 @@ class ProductsService
      */
     public function getBySlug(string $slug): Product
     {
-        $product = $this->productRepository->findBySlug($slug);
-
-        return $this->priceFormatter->addFormattedPriceToProduct($product);
-    }
-
-    /**
-     * Get randomly ordered product collection which doesn't contain given slug.
-     *
-     * @param string $slug
-     * @param int $limit
-     * @return \Illuminate\Support\Collection
-     */
-    public function getBySlugNotInRandomOrder(string $slug, int $limit): \Illuminate\Support\Collection
-    {
-        $products = $this->productRepository->findBySlugNotInRandomOrder($slug, $limit);
-
-        return $this->priceFormatter->addFormattedPriceToProducts($products);
-    }
-
-    /**
-     * Get randomly ordered featured products.
-     *
-     * @param int|null $limit
-     * @return \Illuminate\Support\Collection
-     */
-    public function getFeaturedInRandomOrder(int $limit = null): \Illuminate\Support\Collection
-    {
-        $products = $this->productRepository->findFeaturedInRandomOrder($limit);
-
-        return $this->priceFormatter->addFormattedPriceToProducts(($products));
-    }
-
-    /**
-     * Get randomly ordered products.
-     * @param int $limit
-     * @return \Illuminate\Support\Collection
-     */
-    public function getInRandomOrder(int $limit = 4): \Illuminate\Support\Collection
-    {
-        $products = $this->productRepository->findInRandomOrder($limit);
-
-        return $this->priceFormatter->addFormattedPriceToProducts(($products));
+        return $this->productRepository->findBySlug($slug);
     }
 
     /**
@@ -98,15 +60,91 @@ class ProductsService
     }
 
     /**
-     * Get products from specified category.
+     * Get recommended products collection.
      *
-     * @param string $categorySlug
-     * @return \Illuminate\Support\Collection
+     * @param string $slug
+     * @param int $recommendedPerPage
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getProductsInCategory(string $categorySlug)
+    public function getRecommendedList(?string $slug, int $recommendedPerPage): \Illuminate\Database\Eloquent\Collection
     {
-        $products = $this->productRepository->findProductsInCategory($categorySlug);
+        $searchCriteria = $this->searchCriteria;
+        $searchCriteria->reset();
 
-        return $this->priceFormatter->addFormattedPriceToProducts(($products));
+        if ($slug !== null) {
+            $searchCriteria->addWhere('slug', '<>', $slug);
+        }
+        $searchCriteria->addSortOrder('rand');
+        $searchCriteria->addLimit($recommendedPerPage);
+
+        return $this->productRepository->getList($searchCriteria);
+    }
+
+    /**
+     * Get product collection.
+     *
+     * @param string|null $category
+     * @param string|null $sortOrder
+     * @param int|null $limit
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getList(?string $sortOrder, ?string $category = null, ?int $limit = null)
+    {
+        $searchCriteria = $this->searchCriteria;
+        $searchCriteria->reset();
+
+        $searchCriteria = $this->setSearchCriteriaOrder($searchCriteria, $sortOrder);
+        $searchCriteria->addLimit($limit);
+
+        if ($category !== null) {
+            $searchCriteria->addRelationship('categories');
+            $searchCriteria->addWhere('categories.slug', '=', $category);
+        }
+
+        return $this->productRepository->getList($searchCriteria);
+    }
+
+    /**
+     * Get featured product collection.
+     *
+     * @param string|null $sortOrder
+     * @param int|null $limit
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getFeaturedList(
+        ?string $sortOrder = null,
+        ?int $limit = null
+    ): \Illuminate\Database\Eloquent\Collection {
+        $searchCriteria = $this->searchCriteria;
+        $searchCriteria->reset();
+
+        $searchCriteria = $this->setSearchCriteriaOrder($searchCriteria, $sortOrder);
+        $searchCriteria->addLimit($limit);
+
+        $searchCriteria->addWhere('featured', '=', true);
+
+        return $this->productRepository->getList($searchCriteria);
+    }
+
+    /**
+     * Set order to Search Criteria.
+     *
+     * @param string|null $sortOrder
+     * @param SearchCriteria $searchCriteria
+     * @return SearchCriteria
+     */
+    private function setSearchCriteriaOrder(SearchCriteria $searchCriteria, ?string $sortOrder): SearchCriteria
+    {
+        $sortOrdersMap = [
+            'low_high' => ['asc', ['price']],
+            'high_low' => ['desc', ['price']],
+            'rand' => ['rand'],
+        ];
+
+        if (isset($sortOrdersMap[$sortOrder])) {
+            $searchCriteria->addSortOrder(...$sortOrdersMap[$sortOrder]);
+        }
+
+        return $searchCriteria;
     }
 }
