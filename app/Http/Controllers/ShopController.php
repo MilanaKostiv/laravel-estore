@@ -7,7 +7,8 @@ use App\Services\Product\ProductsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-
+use App\Services\SearchCriteria;
+use App\Services\Product\ProductPriceFormatter;
 /**
  * Controller for products management.
  */
@@ -31,16 +32,32 @@ class ShopController extends Controller
     /**
      * @var int Amount of products displayed in section "You might also like".
      */
-    private $proposedProductsPerPage = 4;
+    private $recommendedProductsPerPage = 4;
+
+
+    private $searchCriteria;
+
+    /**
+     * @var ProductPriceFormatter
+     */
+    private $productPriceFormatter;
 
     /**
      * @param ProductsService $productService
      * @param CategoriesService $categoryService
+     * @param SearchCriteria $searchCriteria
+     * @param ProductPriceFormatter $productPriceFormatter
      */
-    public function __construct(ProductsService $productService, CategoriesService $categoryService)
-    {
+    public function __construct(
+        ProductsService $productService,
+        CategoriesService $categoryService,
+        SearchCriteria $searchCriteria,
+        ProductPriceFormatter $productPriceFormatter
+    ) {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
+        $this->searchCriteria = $searchCriteria;
+        $this->productPriceFormatter = $productPriceFormatter;
     }
 
     /**
@@ -50,20 +67,13 @@ class ShopController extends Controller
      */
     public function index(): \Illuminate\View\View
     {
-        $categories = $this->categoryService->getAllCategories();
-
         if (request()->category) {
-            $products = $this->productService->getProductsInCategory(request()->category);
             $categoryName = optional($this->categoryService->getCategoryBySlug(request()->category))->name;
+            $products = $this->productService->getList(request()->sort, request()->category);
         } else {
-            $products = $this->productService->getFeaturedInRandomOrder();
             $categoryName = 'Featured';
-        }
-
-        if (request()->sort == 'low_high') {
-            $products = $products->sortBy('price');
-        } elseif (request()->sort == 'high_low') {
-            $products = $products->sortByDesc('price');
+            $order = (request()->sort === null) ? 'rand' : request()->sort;
+            $products = $this->productService->getFeaturedList($order);
         }
 
         $page = Paginator::resolveCurrentPage();
@@ -79,11 +89,11 @@ class ShopController extends Controller
         );
 
         /** @var \Illuminate\Support\Collection $products */
-        $products = $paginator->getCollection();
+        $products = $this->productPriceFormatter->addFormattedPriceToProducts($paginator->getCollection());
 
         return view('shop')->with([
             'products' => $products,
-            'categories' => $categories,
+            'categories' => $this->categoryService->getAllCategories(),
             'categoryName' => $categoryName,
             'paginator' => $paginator
         ]);
@@ -99,16 +109,19 @@ class ShopController extends Controller
     {
         try {
             $product = $this->productService->getBySlug($slug);
+            $formattedProduct = $this->productPriceFormatter->addFormattedPriceToProduct($product);
         } catch (ModelNotFoundException $e) {
             session()->flash('errors', collect('Requested product does not exist!'));
             return redirect()->route('shop.index');
         }
 
-        $mightAlsoLike = $this->productService->getBySlugNotInRandomOrder($slug, $this->proposedProductsPerPage);
+        $recommendedList = $this->productPriceFormatter->addFormattedPriceToProducts(
+            $this->productService->getRecommendedList($slug, $this->recommendedProductsPerPage)
+        );
 
         return view('product')->with([
-            'product' => $product,
-            'mightAlsoLike' => $mightAlsoLike
+            'product' => $formattedProduct,
+            'mightAlsoLike' => $recommendedList
         ]);
     }
 }

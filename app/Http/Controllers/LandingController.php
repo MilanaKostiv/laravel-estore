@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Product\ProductPriceFormatter;
 use App\Services\Product\ProductsService;
 
 /**
@@ -20,11 +21,20 @@ class LandingController extends Controller
     private $productService;
 
     /**
-     * @param ProductsService $productService
+     * @var ProductPriceFormatter
      */
-    public function __construct(ProductsService $productService)
-    {
+    private $productPriceFormatter;
+
+    /**
+     * @param ProductsService $productService
+     * @param ProductPriceFormatter $productPriceFormatter
+     */
+    public function __construct(
+        ProductsService $productService,
+        ProductPriceFormatter $productPriceFormatter
+    ) {
         $this->productService = $productService;
+        $this->productPriceFormatter = $productPriceFormatter;
     }
 
     /**
@@ -34,8 +44,9 @@ class LandingController extends Controller
      */
     public function index(): \Illuminate\View\View
     {
-        $products = $this->productService->getFeaturedInRandomOrder($this->productsPerPage);
+        $products = $this->productService->getFeaturedList('rand', $this->productsPerPage);
+        $formattedProducts = $this->productPriceFormatter->addFormattedPriceToProducts($products);
 
-        return view('landing')->with('products', $products);
+        return view('landing')->with('products', $formattedProducts);
     }
 }
