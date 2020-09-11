@@ -62,7 +62,7 @@ class ProductsService
     /**
      * Get recommended products collection.
      *
-     * @param string $slug
+     * @param string|null $slug
      * @param int $recommendedPerPage
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -88,7 +88,11 @@ class ProductsService
      * @param int|null $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getList(?string $sortOrder, ?string $category = null, ?int $limit = null)
+    public function getList(
+        ?string $sortOrder,
+        ?string $category = null,
+        ?int $limit = null
+    ) :\Illuminate\Database\Eloquent\Collection
     {
         $searchCriteria = $this->searchCriteria;
         $searchCriteria->reset();

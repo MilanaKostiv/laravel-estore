@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\Cart\CartService;
-use App\Services\Product\ProductsService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Product;
-use Illuminate\Support\Facades\Validator;
 use App\Services\PriceFormatter;
-use Gloudemans\Shoppingcart\Exceptions\InvalidRowIDException;
 
 /**
  * Controller for cart management.
@@ -28,19 +26,13 @@ class CartController extends Controller
     private $priceFormatter;
 
     /**
-     * @var ProductsService
+     * @param CartService $cartService
+     * @param PriceFormatter $priceFormatter
      */
-    private $productService;
-
-
-    public function __construct(
-        CartService $cartService,
-        PriceFormatter $priceFormatter,
-        ProductsService $productService
-    ) {
+    public function __construct(CartService $cartService, PriceFormatter $priceFormatter)
+    {
         $this->cartService = $cartService;
         $this->priceFormatter = $priceFormatter;
-        $this->productService = $productService;
     }
 
     /**
@@ -50,7 +42,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cartData = $this->cartService->getAllData();
+        $cartData = $this->cartService->getCartData();
 
         return view('cart')->with('cartData', $cartData);
     }
@@ -58,10 +50,10 @@ class CartController extends Controller
     /**
      * Add product to cart.
      *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @param  Product  $product
+     * @return RedirectResponse
      */
-    public function store(Product $product)
+    public function store(Product $product): RedirectResponse
     {
         Cart::instance('default')->add($product->id, $product->name, 1, $product->price)->associate('App\Product');
 
@@ -71,71 +63,13 @@ class CartController extends Controller
     /**
      * Update product quantity in cart.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Request  $request
+     * @param  string  $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function update(Request $request, string $id): JsonResponse
     {
-        $success = false;
-        $errors = [];
-        $itemQty = null;
-        $itemSubtotal = null;
-        $total = $this->priceFormatter->formatPrice(Cart::total());
-        $subtotal = $this->priceFormatter->formatPrice(Cart::subtotal());
-        $quantity = Cart::count();
-        $tax = $this->priceFormatter->formatPrice(Cart::tax());
-
-        try {
-            $item = Cart::get($id);
-            $itemQty = $item->qty;
-            $itemSubtotal = $this->priceFormatter->formatPrice($item->subtotal());
-        } catch (InvalidRowIDException $e) {
-            $errors[] = 'The product was not found in cart.';
-        }
-
-        $validator = Validator::make($request->all(), [
-            'quantity' => 'required|numeric'
-        ]);
-
-        if ($validator->fails()) {
-            $errors[] = 'Wrong format of quantity!';
-        }
-        try {
-            $product = $this->productService->getById($request->get('productId'));
-        } catch (ModelNotFoundException $e) {
-            $errors[] = 'The product was not found.';
-        }
-
-        if ($request->quantity > $product->quantity) {
-            $errors[] = 'We currently do not have enough items in stock.';
-        }
-
-        if (empty($errors)) {
-            try {
-                $success = true;
-                $item = Cart::update($id, $request->quantity);
-                $itemQty = $item->qty;
-                $quantity = Cart::count();
-                $itemSubtotal = $this->priceFormatter->formatPrice($item->subtotal());
-                $total = $this->priceFormatter->formatPrice(Cart::total());
-                $subtotal = $this->priceFormatter->formatPrice(Cart::subtotal());
-                $tax = $this->priceFormatter->formatPrice(Cart::tax());
-            } catch (\Exception $e) {
-                $errors[] = 'Something went wrong!';
-            }
-        }
-
-        $result = [
-            'success' => $success,
-            'errors' => $errors,
-            'quantity' => $quantity,
-            'itemSubtotal' => $itemSubtotal,
-            'itemQty' => $itemQty,
-            'total' => $total,
-            'subtotal' => $subtotal,
-            'tax' => $tax
-        ];
+        $result = $this->cartService->updateCart($id, $request);
 
         return response()->json($result);
     }
@@ -144,9 +78,9 @@ class CartController extends Controller
      * Remove product from cart.
      *
      * @param  string  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(string $id): \Illuminate\Http\RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
         Cart::instance('default')->remove($id);
 
