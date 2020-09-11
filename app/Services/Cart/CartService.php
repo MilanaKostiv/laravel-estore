@@ -4,7 +4,11 @@ namespace App\Services\Cart;
 
 use App\Services\PriceFormatter;
 use App\Services\Product\ProductPriceFormatter;
+use App\Services\Product\ProductsService;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Service for cart management.
@@ -32,13 +36,23 @@ class CartService
     private $subtotal;
 
     /**
+     * @var ProductsService
+     */
+    private $productService;
+
+    /**
      * @param ProductPriceFormatter $productPriceFormatter
      * @param PriceFormatter $priceFormatter
+     * @param ProductsService $productService
      */
-    public function __construct(ProductPriceFormatter $productPriceFormatter, PriceFormatter $priceFormatter)
-    {
+    public function __construct(
+        ProductPriceFormatter $productPriceFormatter,
+        PriceFormatter $priceFormatter,
+        ProductsService $productService
+    ) {
         $this->productPriceFormatter = $productPriceFormatter;
         $this->priceFormatter = $priceFormatter;
+        $this->productService = $productService;
     }
 
     /**
@@ -56,7 +70,8 @@ class CartService
     /**
      * @return array
      */
-    public function getAllData(){
+    public function getCartData(): array
+    {
 
         return [
             'amount'   => Cart::instance('default')->count(),
@@ -88,11 +103,11 @@ class CartService
     /**
      * Calculate tax amount based on subtotal and tax rate.
      *
-     * @return float|int
+     * @return float
      */
-    private function getTaxAmount()
+    private function getTaxAmount(): float
     {
-        return $this->getTax() / 100 * $this->getSubtotal();
+        return round($this->getTax() / 100 * $this->getSubtotal(), 2);
     }
 
 
@@ -138,5 +153,66 @@ class CartService
     private function getTaxAmountFormatted(): string
     {
         return $this->priceFormatter->formatPrice($this->getTaxAmount());
+    }
+
+    /**
+     * Update item quantity in cart.
+     *
+     * @param string $cartItemId
+     * @param Request $request
+     * @return array
+     */
+    public function updateCart(string $cartItemId, Request $request): array
+    {
+        $result = [];
+
+        $success = false;
+        $errors = $this->validateCart($request);
+
+        if (empty($errors)) {
+            $item = Cart::update($cartItemId, $request->quantity);
+            $success = true;
+
+            $result['quantity'] = Cart::count();
+            $result['itemSubtotal'] = $this->priceFormatter->formatPrice($item->subtotal());
+            $result['itemQty'] = $item->qty;
+            $result['total'] = $this->priceFormatter->formatPrice(Cart::total());
+            $result['subtotal'] = $this->priceFormatter->formatPrice(Cart::subtotal());
+            $result['tax'] = $this->priceFormatter->formatPrice(Cart::tax());
+        }
+        $result['success'] = $success;
+        $result['errors'] = $errors;
+
+        return $result;
+    }
+
+    /**
+     * Validate cart before updating.
+     *
+     * @param Request $request
+     * @return array
+     */
+    private function validateCart(Request $request): array
+    {
+        $errors = [];
+
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            $errors[] = 'Wrong format of quantity.';
+        }
+
+        try {
+            $product = $this->productService->getById($request->get('productId'));
+        } catch (ModelNotFoundException $e) {
+            $errors[] = 'The product was not found.';
+        }
+        if ($request->quantity > $product->quantity) {
+            $errors[] = 'We currently do not have enough items in stock.';
+        }
+
+        return $errors;
     }
 }

@@ -60,7 +60,6 @@ function updateQuantity(element, quantityInt) {
     })
         .then(function (response) {
             overlay.css('display', 'none');
-
             if (response.data.itemQty) {
                 element.value = response.data.itemQty;
             }
@@ -78,7 +77,6 @@ function updateQuantity(element, quantityInt) {
             }
 
             if (response.data.errors.length != 0) {
-                console.log('error');
                 let html = '<ul>';
                 response.data.errors.forEach(function(element) {
                     html += '<li>' + element + '</li>';
