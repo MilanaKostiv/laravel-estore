@@ -48,6 +48,10 @@ function updateQuantity(element, quantityInt) {
 
     let cartTableRow = $(element).closest('.cart-table-row');
     let overlay = $(element).closest('.cart-table-row-wrapper').find('.overlay');
+
+    if (overlay.length === 0) {
+        overlay = $(element).closest('.checkout-table-row-wrapper').find('.overlay');
+    }
     overlay.css('display', 'block');
 
     $('.alert-success, .alert-danger').slideUp( "slow", function() {

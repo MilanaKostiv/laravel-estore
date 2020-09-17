@@ -1,4 +1,10 @@
 form {
+  .half-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+  }
+
   button[type="submit"] {
     border-style: none;
     cursor: pointer;
@@ -6,3 +12,18 @@ form {
     line-height: 1.6;
   }
 }
+.form-group {
+
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+

@@ -34,11 +34,7 @@
                                             <button type="submit" class="cart-options">Save for Later</button>
                                         </form>
                                     </div>
-                                    <div class="quantity-container">
-                                        <div class="minus sprite"></div>
-                                        <div><input type="text" class="quantity" value="{{ $item->qty }}" maxlength="2" data-id="{{ $item->rowId }}" product-id="{{ $item->id }}"/></div>
-                                        <div class="plus sprite"></div>
-                                    </div>
+                                    @include('partials.counter')
                                     <div class="product-subtotal">{{ $item->formattedPrice }}</div>
                                 </div>
                             </div>
@@ -65,7 +61,7 @@
                 </div>
                 <div class="cart-buttons">
                     <a href="{{ route('shop.index') }}" class="button">Continue Shopping</a>
-                    <a href="#" class="button-primary">Proceed to Checkout</a>
+                    <a href="{{ route('checkout.index') }}" class="button-primary">Proceed to Checkout</a>
                 </div>
                 @else
                     <h3>No items in Cart!</h3>
@@ -113,6 +109,5 @@
 @endsection
 @section('extra-js')
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('js/cart/counter.js') }}"></script>
 @endsection

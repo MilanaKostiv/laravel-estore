@@ -27,3 +27,8 @@ Route::patch('/cart/{id}', 'CartController@update')->name('cart.update');
 Route::post('/saveforlater/{id}','SaveForLaterController@store')->name('saveforlater.store');
 Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy')->name('saveforlater.destroy');
 Route::post('/saveforlater/movetocart/{id}', 'SaveForLaterController@moveToCart')->name('saveforlater.movetocart');
+
+Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
+
+Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.index');
