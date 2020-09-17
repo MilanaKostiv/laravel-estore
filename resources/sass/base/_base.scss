@@ -1,3 +1,11 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 h1 {
   margin-bottom: 40px;
 }
@@ -41,4 +49,10 @@ strong {
 
 .hide {
   display: none;
+}
+
+.sticky-footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

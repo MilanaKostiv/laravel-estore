@@ -21,13 +21,14 @@
     @yield('extra-css')
 </head>
 
-<body>
+<body class="@yield('body-class', '')">
 @include('partials.nav')
 @include('partials.errors')
 @yield('content')
 
 @include('partials.footer')
 
+<script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
 @yield('extra-js')
 </body>
 </html>
