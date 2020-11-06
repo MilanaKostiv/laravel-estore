@@ -28,7 +28,10 @@ Route::post('/saveforlater/{id}','SaveForLaterController@store')->name('saveforl
 Route::delete('/saveforlater/{id}', 'SaveForLaterController@destroy')->name('saveforlater.destroy');
 Route::post('/saveforlater/movetocart/{id}', 'SaveForLaterController@moveToCart')->name('saveforlater.movetocart');
 
-Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+Route::get('/checkout', 'CheckoutController@index')->name('checkout.index')->middleware('auth');
 Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
-
+Route::get('/guestCheckout', 'CheckoutController@index')->name('guestCheckout.index');
 Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.index');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

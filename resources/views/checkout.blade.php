@@ -17,7 +17,11 @@
 
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="user@gmail.com" required>
+                        @if (auth()->user())
+                            <input type="email" class="form-control" id="email" name="email" value="{{ auth()->user()->email }}" required>
+                        @else
+                            <input type="email" class="form-control" id="email" name="email" value="" required>
+                         @endif
                     </div>
 
                     <div class="form-group">

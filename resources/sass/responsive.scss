@@ -2,6 +2,24 @@
 @media only screen and (max-width: 1200px) {
   .container {
     max-width: 960px;
+
+    .auth-pages {
+      .login-container {
+        flex-direction: column;
+
+        input[id="remember"] {
+          margin-top: 20px;
+        }
+
+        .already-have-container {
+          margin-top: 20px;
+
+          a {
+            margin-left: 70px;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -11,13 +29,17 @@
     .top-nav {
       flex-direction: column;
 
+      .top-nav-left {
+        flex-direction: column;
+      }
+
       .logo {
         margin: auto;
       }
 
       ul {
         margin: 20px auto 0;
-        width: 80%;
+       // width: 80%;
       }
     }
 
@@ -55,5 +77,17 @@
 
   .product-section-information {
     text-align: center;
+  }
+
+  .auth-pages {
+    margin: 50px auto;
+    grid-template-columns: 1fr;
+    grid-gap: 40px;
+    padding: 20px;
+
+    .auth-right {
+      border-left: none;
+      padding-left: 0px;
+    }
   }
 }

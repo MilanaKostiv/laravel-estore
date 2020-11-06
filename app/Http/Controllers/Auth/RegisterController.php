@@ -70,4 +70,31 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        if (strpos(url()->previous(), 'register') === false) {
+            session()->put('backUrl', url()->previous());
+        }
+
+        return view('auth.register');
+    }
+
+    /**
+     * Get the post register redirect path.
+     *
+     * @return string
+     */
+    public function redirectTo()
+    {
+        $backUrl = session()->get('backUrl');
+        session()->put('backUrl', '');
+
+        return str_replace(url('/'), '', $backUrl);
+    }
 }
