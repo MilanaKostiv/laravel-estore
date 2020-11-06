@@ -35,6 +35,10 @@ class CheckoutController extends Controller
     {
         $cartData = $this->cartService->getCartData();
 
+        if (auth()->user() && request()->is('guestCheckout')) {
+            return redirect()->route('checkout.index');
+        }
+
         return view('checkout')->with('cartData', $cartData);
     }
 
