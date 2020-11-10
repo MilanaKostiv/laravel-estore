@@ -7,3 +7,4 @@ DB_DATABASE=homestead
 DB_USERNAME=homestead
 DB_PASSWORD=secret
 ```
+PHP Exif extension should be enabled.
