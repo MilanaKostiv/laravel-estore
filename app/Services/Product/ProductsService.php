@@ -131,6 +131,40 @@ class ProductsService
     }
 
     /**
+     * Get product categories.
+     *
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getProductCategories(int $id): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->productRepository->findProductCategories($id);
+    }
+
+    /**
+     * Delete product categories.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteProductCategories(int $id): void
+    {
+        $this->productRepository->deleteProductCategories($id);
+    }
+
+    /**
+     * Add product categories.
+     *
+     * @param int $id
+     * @param array $categories
+     * @return void
+     */
+    public function addProductCategories(int $id, array $categories): void
+    {
+        $this->productRepository->addProductCategories($id, $categories);
+    }
+
+    /**
      * Set order to Search Criteria.
      *
      * @param string|null $sortOrder

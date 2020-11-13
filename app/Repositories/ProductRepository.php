@@ -39,6 +39,45 @@ class ProductRepository
     }
 
     /**
+     * Find product categories.
+     *
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findProductCategories(int $id): \Illuminate\Database\Eloquent\Collection
+    {
+        $product = $this->findById($id);
+
+        return $product->categories()->get();
+    }
+
+    /**
+     * Delete product categories.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteProductCategories(int $id): void
+    {
+        $product = $this->findById($id);
+
+        $product->categories()->detach();
+    }
+
+    /**
+     * Add product categories.
+     *
+     * @param int $id
+     * @param array $categories
+     * @return void
+     */
+    public function addProductCategories(int $id, array $categories): void
+    {
+        $product = $this->findById($id);
+        $product->categories()->attach($categories);
+    }
+
+    /**
      * Get product collection by given Search Criteria.
      *
      * @param SearchCriteria $searchCriteria
@@ -50,4 +89,5 @@ class ProductRepository
 
         return $productsProcessor->process($searchCriteria)->get();
     }
+
 }
