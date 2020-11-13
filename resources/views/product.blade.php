@@ -12,7 +12,7 @@
             <div class="product-section-subtitle"> {{ $product->details }}</div>
             <div class="badge {{ $product->quantity > 0 ? 'badge-success' : 'badge-danger'}}"> {{ $product->quantity > 0 ? 'In Stock': 'Out Of Stock'}}</div>
             <div class="product-section-price">{{ $product->formattedPrice }}</div>
-            <p>{{ $product->description }}</p>
+            <p>{!! $product->description !!}</p>
             @if ($product->quantity > 0)
                 <form action="{{ route('cart.store', $product) }}" method="POST">
                     {{ csrf_field() }}

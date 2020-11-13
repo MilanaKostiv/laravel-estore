@@ -16,7 +16,7 @@ class Product extends Model
      */
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\Category')->withTimestamps();
     }
 
     /**
