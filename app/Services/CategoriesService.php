@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Services\Category;
+namespace App\Services;
 
 use App\Repositories\CategoryRepository;
 use App\Category;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Service for getting category data.
+ * Categories processing.
  */
 class CategoriesService
 {
@@ -24,17 +25,17 @@ class CategoriesService
     }
 
     /**
-     * Get all categories.
+     * Gets all categories.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function getAllCategories(): \Illuminate\Database\Eloquent\Collection
+    public function getAllCategories(): Collection
     {
         return $this->categoryRepository->findAllCategories();
     }
 
     /**
-     * Get category by slug.
+     * Gets category by slug.
      *
      * @param string $slug
      * @return Category|null

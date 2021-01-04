@@ -14,7 +14,7 @@
             <div class="product-section-price">{{ $product->formattedPrice }}</div>
             <p>{!! $product->description !!}</p>
             @if ($product->quantity > 0)
-                <form action="{{ route('cart.store', $product) }}" method="POST">
+                <form action="{{ route('cart.addToCart', $product) }}" method="POST">
                     {{ csrf_field() }}
                     <button type="submit" class="button button-plain">Add to Cart</button>
                 </form>

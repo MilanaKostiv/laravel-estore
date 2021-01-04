@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Cart\CartService;
+use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Product;
 use App\Services\PriceFormatter;
+use Illuminate\View\View;
 
 /**
- * Controller for cart management.
+ * Cart rendering and modification.
  */
 class CartController extends Controller
 {
@@ -38,9 +39,9 @@ class CartController extends Controller
     /**
      * Display cart list.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $cartData = $this->cartService->getCartData();
 
@@ -48,12 +49,12 @@ class CartController extends Controller
     }
 
     /**
-     * Add product to cart.
+     * Adds product to cart.
      *
      * @param  Product  $product
      * @return RedirectResponse
      */
-    public function store(Product $product): RedirectResponse
+    public function addToCart(Product $product): RedirectResponse
     {
         Cart::instance('default')->add($product->id, $product->name, 1, $product->price)->associate('App\Product');
 
@@ -61,7 +62,7 @@ class CartController extends Controller
     }
 
     /**
-     * Update product quantity in cart.
+     * Recalculates cart subtotal, total, tax amount.
      *
      * @param  Request  $request
      * @param  string  $id
@@ -75,7 +76,7 @@ class CartController extends Controller
     }
 
     /**
-     * Remove product from cart.
+     * Removes product from cart.
      *
      * @param  string  $id
      * @return RedirectResponse

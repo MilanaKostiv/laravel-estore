@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\PaymentException;
 use App\Http\Requests\CheckoutRequest;
-use App\Services\Cart\CartService;
-use Cartalyst\Stripe\Exception\CardErrorException;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
+use App\Services\CartService;
+use App\Services\Checkout;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use \Illuminate\Http\RedirectResponse;
+use \Illuminate\View\View;
 
 /**
- * Checkout page controller.
+ * Checkout page rendering and order making.
  */
 class CheckoutController extends Controller
 {
@@ -19,17 +21,24 @@ class CheckoutController extends Controller
     private $cartService;
 
     /**
-     * @param CartService $cartService
+     * @var Checkout
      */
-    public function __construct(CartService $cartService)
+    private $checkout;
+
+    /**
+     * @param CartService $cartService
+     * @param Checkout $checkout
+     */
+    public function __construct(CartService $cartService, Checkout $checkout)
     {
         $this->cartService = $cartService;
+        $this->checkout = $checkout;
     }
 
     /**
-     * Display a listing of the resource.
+     * Shows the checkout form.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return RedirectResponse|View
      */
     public function index()
     {
@@ -43,35 +52,20 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Saves order and makes payment.
      *
      * @param CheckoutRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(CheckoutRequest $request)
+    public function makeOrder(CheckoutRequest $request): RedirectResponse
     {
-        $contents = Cart::instance('default')->content()->map(function ($item) {
-            return $item->model->slug.', '.$item->qty;
-        })->values()->toJson();
-
         try {
-            Stripe::charges()->create([
-                'amount' => Cart::instance('default')->total(),
-                'currency' => 'USD',
-                'source' => $request->stripeToken,
-                'description' => 'Order',
-                'receipt_email' => $request->email,
-                'metadata' => [
-                    'contents' => $contents,
-                    'quantity' => Cart::instance('default')->count()
-                ]
-            ]);
-
+            $this->checkout->execute($request);
             Cart::instance('default')->destroy();
 
             return redirect()->route('confirmation.index')->with('success_message', 'Thank you! Your payment has been successfully accepted.');
 
-        } catch(CardErrorException $e) {
+        } catch (PaymentException $e) {
             return back()->withErrors('Error!' . $e->getMessage());
         }
     }

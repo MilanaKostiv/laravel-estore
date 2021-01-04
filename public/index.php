@@ -1,5 +1,6 @@
 <?php
-
+//phpinfo(); die;
+//echo openssl_cipher_iv_length('AES-128-CBC'); die;
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

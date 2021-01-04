@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+
 /**
  * Confirmation page controller.
  */
 class ConfirmationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Renders page after successful order.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|
+     * @return Factory|RedirectResponse|
      * \Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function index()

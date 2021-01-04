@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Voyager;
 
 use App\Services\Product\ProductsService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
-use App\Services\Category\CategoriesService;
+use App\Services\CategoriesService;
 
 /**
  * Customization of VoyagerBaseController for products.
@@ -36,9 +37,9 @@ class ProductsController extends VoyagerBaseController
      * Add a new item of our Data Type BRE(A)D
      *
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function create(Request $request): \Illuminate\View\View
+    public function create(Request $request): View
     {
         $view = parent::create($request);
         $view['allCategories'] = $this->categoryService->getAllCategories();
@@ -55,9 +56,9 @@ class ProductsController extends VoyagerBaseController
      *
      * @param Request $request
      * @param $id
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function edit(Request $request, $id): \Illuminate\View\View
+    public function edit(Request $request, $id): View
     {
         $view = parent::edit($request, $id);
         $view['allCategories'] = $this->categoryService->getAllCategories();
@@ -76,9 +77,9 @@ class ProductsController extends VoyagerBaseController
      *
      * @param Request $request
      * @param $id
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function show(Request $request, $id): \Illuminate\View\View
+    public function show(Request $request, $id): View
     {
         $view = parent::show($request, $id);
         $view['categoriesForProduct'] = $this->productService->getProductCategories($id);

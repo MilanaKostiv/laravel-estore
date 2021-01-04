@@ -5,9 +5,11 @@ namespace App\Services\Product;
 use App\Product;
 use App\Repositories\ProductRepository;
 use App\Services\SearchCriteria;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
- * Service for getting product data.
+ * Service to work with product.
  */
 class ProductsService
 {
@@ -34,12 +36,12 @@ class ProductsService
     }
 
     /**
-     * Get product by slug.
+     * Gets product by slug.
      *
      * @param string $slug
      * @return Product
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function getBySlug(string $slug): Product
     {
@@ -47,12 +49,12 @@ class ProductsService
     }
 
     /**
-     * Get product by id.
+     * Gets product by id.
      *
      * @param int $id
      * @return Product
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function getById(int $id): Product
     {
@@ -60,13 +62,13 @@ class ProductsService
     }
 
     /**
-     * Get recommended products collection.
+     * Gets recommended products collection.
      *
      * @param string|null $slug
      * @param int $recommendedPerPage
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function getRecommendedList(?string $slug, int $recommendedPerPage): \Illuminate\Database\Eloquent\Collection
+    public function getRecommendedList(?string $slug, int $recommendedPerPage): Collection
     {
         $searchCriteria = $this->searchCriteria;
         $searchCriteria->reset();
@@ -81,18 +83,18 @@ class ProductsService
     }
 
     /**
-     * Get product collection.
+     * Gets product collection.
      *
      * @param string|null $category
      * @param string|null $sortOrder
      * @param int|null $limit
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function getList(
         ?string $sortOrder,
         ?string $category = null,
         ?int $limit = null
-    ) :\Illuminate\Database\Eloquent\Collection
+    ) : Collection
     {
         $searchCriteria = $this->searchCriteria;
         $searchCriteria->reset();
@@ -109,16 +111,16 @@ class ProductsService
     }
 
     /**
-     * Get featured product collection.
+     * Gets featured product collection.
      *
      * @param string|null $sortOrder
      * @param int|null $limit
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function getFeaturedList(
         ?string $sortOrder = null,
         ?int $limit = null
-    ): \Illuminate\Database\Eloquent\Collection {
+    ): Collection {
         $searchCriteria = $this->searchCriteria;
         $searchCriteria->reset();
 
@@ -131,18 +133,18 @@ class ProductsService
     }
 
     /**
-     * Get product categories.
+     * Gets product categories.
      *
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function getProductCategories(int $id): \Illuminate\Database\Eloquent\Collection
+    public function getProductCategories(int $id): Collection
     {
         return $this->productRepository->findProductCategories($id);
     }
 
     /**
-     * Delete product categories.
+     * Deletes product categories.
      *
      * @param int $id
      * @return void
@@ -153,7 +155,7 @@ class ProductsService
     }
 
     /**
-     * Add product categories.
+     * Adds product categories.
      *
      * @param int $id
      * @param array $categories
@@ -165,7 +167,7 @@ class ProductsService
     }
 
     /**
-     * Set order to Search Criteria.
+     * Sets order to Search Criteria.
      *
      * @param string|null $sortOrder
      * @param SearchCriteria $searchCriteria
@@ -184,5 +186,15 @@ class ProductsService
         }
 
         return $searchCriteria;
+    }
+
+    /**
+     * Updates product quantity.
+     *
+     * @param \Illuminate\Support\Collection $items
+     */
+    public function updateQuantity(\Illuminate\Support\Collection $items)
+    {
+        $this->productRepository->updateQuantity($items);
     }
 }

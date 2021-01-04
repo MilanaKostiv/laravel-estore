@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Product;
-use App\Services\Category\CategoriesService;
+use App\Services\CategoriesService;
 use App\Services\Product\ProductsService;
 use TCG\Voyager\Events\BreadDataChanged;
 use Illuminate\Http\Request;
@@ -41,6 +41,8 @@ class ProductSaving
     }
 
     /**
+     * Reassign categories to product.
+     *
      * @param BreadDataChanged $event
      * @return void
      */
@@ -48,11 +50,15 @@ class ProductSaving
     {
         if ($event->data instanceof Product) {
             $productId = $event->data['id'];
-
+            /**
+             * Clean up categories assigned to a product.
+             */
             if (($event->changeType === 'Updated') || ($event->changeType === 'Deleted')) {
                 $this->productService->deleteProductCategories($productId);
             }
-
+            /**
+             * Assign new categories to a product.
+             */
             if ($this->request->has('category')) {
                 if (($event->changeType === 'Updated') || ($event->changeType === 'Added')) {
                     $chosenCategories = $this->request->get('category');

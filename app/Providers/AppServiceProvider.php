@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\Payment\PaymentFactory;
+use App\Services\Payment\PaymentFactoryInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Checkout;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->when(Checkout::class)
+            ->needs(PaymentFactoryInterface::class)
+            ->give(function () {
+                return new PaymentFactory();
+            });
     }
 
     /**

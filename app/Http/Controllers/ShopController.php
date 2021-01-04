@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Category\CategoriesService;
+use App\Services\CategoriesService;
 use App\Services\Product\ProductsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use App\Services\SearchCriteria;
 use App\Services\Product\ProductPriceFormatter;
+use Illuminate\View\View;
+
 /**
- * Controller for products management.
+ * Product list and product page rendering.
  */
 class ShopController extends Controller
 {
@@ -61,11 +64,11 @@ class ShopController extends Controller
     }
 
     /**
-     * Display products list.
+     * Displays products list.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function index(): \Illuminate\View\View
+    public function index(): View
     {
         if (request()->category) {
             $categoryName = optional($this->categoryService->getCategoryBySlug(request()->category))->name;
@@ -100,10 +103,10 @@ class ShopController extends Controller
     }
 
     /**
-     * Display the specified product.
+     * Displays the specified product.
      *
      * @param  string $slug
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @return View|RedirectResponse
      */
     public function show(string $slug)
     {
