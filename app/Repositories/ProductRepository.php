@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Product;
 use App\Services\SearchCriteria;
 use App\Services\EntityProcessor;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
 
 /**
  * Fetch product related data.
@@ -17,7 +19,7 @@ class ProductRepository
      * @param string $slug
      * @return Product
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findBySlug(string $slug): Product
     {
@@ -31,7 +33,7 @@ class ProductRepository
      * @param int $id
      * @return Product
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findById(int $id): Product
     {
@@ -90,4 +92,17 @@ class ProductRepository
         return $productsProcessor->process($searchCriteria)->get();
     }
 
+    /**
+     * Update product quantity.
+     *
+     * @param Collection $items
+     * @return void
+     */
+    public function updateQuantity(Collection $items)
+    {
+        foreach ($items as $item) {
+            $product = Product::find($item->model->id);
+            $product->update(['quantity' => $product->quantity - $item->qty]);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Checkout')
+@section('title', 'OrderService')
 
 @section ('extra-css')
     <script src="https://js.stripe.com/v3/"></script>
@@ -11,7 +11,7 @@
         <h1 class="checkout-heading stylish-heading">Checkout</h1>
         <div class="checkout-section">
             <div>
-                <form action="{{ route('checkout.store') }}" method="POST" id="payment-form">
+                <form action="{{ route('checkout.makeorder') }}" method="POST" id="payment-form">
                     {{ csrf_field() }}
                     <h2>Billing Details</h2>
 
@@ -47,8 +47,8 @@
 
                     <div class="half-form">
                         <div class="form-group">
-                            <label for="postal-code">Postal Code</label>
-                            <input type="text" class="form-control" id="postal-code" name="postal-code" required>
+                            <label for="postal_code">Postal Code</label>
+                            <input type="text" class="form-control" id="postal_code" name="postal_code" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
@@ -60,8 +60,11 @@
 
                     <h2>Payment Details</h2>
                     <div class="form-group">
-                        <label for="name-on-card">Name on Card</label>
-                        <input type="text" class="form-control" id="name-on-card" name="name-on-card">
+                        <input type="hidden" name="payment_gateway" value="stripe">
+                    </div>
+                    <div class="form-group">
+                        <label for="name_on_card">Name on Card</label>
+                        <input type="text" class="form-control" id="name_on_card" name="name_on_card">
                     </div>
 
                     <div class="form-group">

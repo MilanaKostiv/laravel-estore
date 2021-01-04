@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Cart;
+namespace App\Services;
 
 use App\Services\PriceFormatter;
 use App\Services\Product\ProductPriceFormatter;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
- * Service for cart management.
+ * Cart service management.
  */
 class CartService
 {
@@ -56,6 +56,8 @@ class CartService
     }
 
     /**
+     * Get tax config.
+     *
      * @return int
      */
     private function getTax(): int
@@ -68,6 +70,8 @@ class CartService
     }
 
     /**
+     * Gets cart related data.
+     *
      * @return array
      */
     public function getCartData(): array
@@ -86,7 +90,7 @@ class CartService
     }
 
     /**
-     * Get cart subtotal.
+     * Gets cart subtotal.
      *
      * @return string
      */
@@ -101,7 +105,7 @@ class CartService
     }
 
     /**
-     * Calculate tax amount based on subtotal and tax rate.
+     * Calculates tax amount based on subtotal and tax rate.
      *
      * @return float
      */
@@ -112,7 +116,7 @@ class CartService
 
 
     /**
-     * Calculate total price based on subtotal and tax rate.
+     * Calculates total price based on subtotal and tax rate.
      *
      * @return float
      */
@@ -126,7 +130,7 @@ class CartService
     }
 
     /**
-     * Format total price.
+     * Formats total price.
      *
      * @return string
      */
@@ -136,7 +140,7 @@ class CartService
     }
 
     /**
-     * Format subtotal.
+     * Formats subtotal.
      *
      * @return string
      */
@@ -146,7 +150,7 @@ class CartService
     }
 
     /**
-     * Format tax amount.
+     * Formats tax amount.
      *
      * @return string
      */
@@ -156,7 +160,7 @@ class CartService
     }
 
     /**
-     * Update item quantity in cart.
+     * Updates item quantity in cart.
      *
      * @param string $cartItemId
      * @param Request $request
@@ -187,7 +191,7 @@ class CartService
     }
 
     /**
-     * Validate cart before updating.
+     * Validates cart before updating.
      *
      * @param Request $request
      * @return array

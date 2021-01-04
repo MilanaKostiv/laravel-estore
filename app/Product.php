@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Product Eloquent Model.
@@ -10,11 +11,16 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     /**
+     * @var array
+     */
+    protected $fillable = ['quantity'];
+
+    /**
      * Product-to-category relation.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany('App\Category')->withTimestamps();
     }

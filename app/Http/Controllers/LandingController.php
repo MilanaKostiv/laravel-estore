@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Services\Product\ProductPriceFormatter;
 use App\Services\Product\ProductsService;
+use Illuminate\View\View;
 
 /**
- * Controller for landing page.
+ * Landing page rendering.
  */
 class LandingController extends Controller
 {
@@ -38,11 +39,11 @@ class LandingController extends Controller
     }
 
     /**
-     * Render landing page.
+     * Renders landing page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function index(): \Illuminate\View\View
+    public function index(): View
     {
         $products = $this->productService->getFeaturedList('rand', $this->productsPerPage);
         $formattedProducts = $this->productPriceFormatter->addFormattedPriceToProducts($products);

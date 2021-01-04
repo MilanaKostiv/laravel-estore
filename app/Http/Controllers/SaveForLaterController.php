@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
- * SaveForLater cart management.
+ * "Save For Later" list modifications.
  */
 class SaveForLaterController extends Controller
 {
     /**
-     * Add product to saveForLater cart.
+     * Adds product to saveForLater cart.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
        $item = Cart::instance('default')->get($request->id);
         Cart::instance('default')->remove($request->id);
@@ -27,12 +28,12 @@ class SaveForLaterController extends Controller
     }
 
     /**
-     * Remove product from saveForLater cart.
+     * Removes product from saveForLater cart.
      *
      * @param  string  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(string $id): \Illuminate\Http\RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
         Cart::instance('saveForLater')->remove($id);
 
@@ -40,12 +41,12 @@ class SaveForLaterController extends Controller
     }
 
     /**
-     * Move product with $id from saveForLater cart to default one.
+     * Moves product with $id from saveForLater cart to default one.
      *
      * @param string $id Identifier of product in saveForLater cart.
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function moveToCart(string $id): \Illuminate\Http\RedirectResponse
+    public function moveToCart(string $id): RedirectResponse
     {
         $item = Cart::instance('saveForLater')->get($id);
         Cart::instance('saveForLater')->remove($id);

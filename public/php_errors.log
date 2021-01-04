@@ -39,3 +39,4 @@
 [11-Nov-2020 20:07:24 UTC] PHP  33. spl_autoload_call() C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Container\Container.php:809
 [11-Nov-2020 20:07:24 UTC] PHP  34. Composer\Autoload\ClassLoader->loadClass() C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Container\Container.php:809
 [11-Nov-2020 20:07:24 UTC] PHP  35. Composer\Autoload\includeFile() C:\Apache24\htdocs\lshopclean.local\vendor\composer\ClassLoader.php:322
+[08-Dec-2020 21:15:02 UTC] PHP Warning:  openssl_cipher_iv_length(): Unknown cipher algorithm in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 3

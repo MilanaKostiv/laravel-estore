@@ -73,9 +73,9 @@ function updateQuantity(element, quantityInt) {
                     cartTableRow.find('.product-subtotal').text(response.data.itemSubtotal);
                 }
 
-                $('div.cart-totals-subtotal span.result-total').text(response.data.total);
-                $('div.cart-totals-subtotal span.result-subtotal').text(response.data.subtotal);
-                $('div.cart-totals-subtotal span.result-tax').text(response.data.tax);
+                $('div.cart-totals-subtotal span.result-total, div.checkout-total-right .result-total').text(response.data.total);
+                $('div.cart-totals-subtotal span.result-subtotal, div.checkout-total-right .result-subtotal').text(response.data.subtotal);
+                $('div.cart-totals-subtotal span.result-tax, div.checkout-total-right .result-tax').text(response.data.tax);
 
                 $('header ul span.cart-count span').text(response.data.quantity);
             }
