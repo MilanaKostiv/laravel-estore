@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Category extends Model
 {
     /**
+     * @var string[]
+     */
+    protected $fillable = ['name', 'slug'];
+
+    /**
      * Category-to-product relation.
      *
      * @return BelongsToMany
