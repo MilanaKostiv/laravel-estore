@@ -75,7 +75,7 @@ class ShopController extends Controller
             $products = $this->productService->getList(request()->sort, request()->category);
         } else {
             $categoryName = 'Featured';
-            $order = (request()->sort === null) ? 'rand' : request()->sort;
+            $order = request()->sort ?? null;
             $products = $this->productService->getFeaturedList($order);
         }
 

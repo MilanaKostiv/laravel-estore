@@ -13,7 +13,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['quantity'];
+    protected $fillable = ['quantity', 'name', 'slug', 'price', 'description', 'featured'];
 
     /**
      * Product-to-category relation.

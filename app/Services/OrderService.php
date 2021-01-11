@@ -39,6 +39,8 @@ class OrderService
 
         $order = $this->orderRepository->save($request);
         $this->addProducts($order, $products);
+
+       return $order;
     }
 
     /**

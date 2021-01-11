@@ -1,0 +1,38 @@
+[07-Jan-2021 23:59:36 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 25
+[07-Jan-2021 23:59:36 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 25
+[07-Jan-2021 23:59:36 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 25
+[07-Jan-2021 23:59:36 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 26
+[07-Jan-2021 23:59:36 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 26
+[07-Jan-2021 23:59:36 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 26
+[08-Jan-2021 00:14:55 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Unable to locate factory for [App\Product]. in C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php:273
+Stack trace:
+#0 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php(296): Illuminate\Database\Eloquent\FactoryBuilder->getRawAttributes(Array)
+#1 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Concerns\GuardsAttributes.php(155): Illuminate\Database\Eloquent\FactoryBuilder->Illuminate\Database\Eloquent\{closure}()
+#2 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php(304): Illuminate\Database\Eloquent\Model::unguarded(Object(Closure))
+#3 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php(223): Illuminate\Database\Eloquent\FactoryBuilder->makeInstance(Array)
+#4 C:\Apache24\htdocs\lshopcle in C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php on line 273
+[08-Jan-2021 00:15:34 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 46
+[08-Jan-2021 00:15:34 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 46
+[08-Jan-2021 00:15:34 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 46
+[08-Jan-2021 00:15:34 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 47
+[08-Jan-2021 00:15:34 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 47
+[08-Jan-2021 00:15:34 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 47
+[08-Jan-2021 00:15:59 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Unable to locate factory for [App\Product]. in C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php:273
+Stack trace:
+#0 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php(296): Illuminate\Database\Eloquent\FactoryBuilder->getRawAttributes(Array)
+#1 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Concerns\GuardsAttributes.php(155): Illuminate\Database\Eloquent\FactoryBuilder->Illuminate\Database\Eloquent\{closure}()
+#2 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php(304): Illuminate\Database\Eloquent\Model::unguarded(Object(Closure))
+#3 C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php(223): Illuminate\Database\Eloquent\FactoryBuilder->makeInstance(Array)
+#4 C:\Apache24\htdocs\lshopcle in C:\Apache24\htdocs\lshopclean.local\vendor\laravel\framework\src\Illuminate\Database\Eloquent\FactoryBuilder.php on line 273
+[08-Jan-2021 00:18:19 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 48
+[08-Jan-2021 00:18:19 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 48
+[08-Jan-2021 00:18:19 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 48
+[08-Jan-2021 00:18:19 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
+[08-Jan-2021 00:18:19 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
+[08-Jan-2021 00:18:19 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
+[08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 48
+[08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 48
+[08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 48
+[08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
+[08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
+[08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
