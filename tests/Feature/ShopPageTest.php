@@ -15,8 +15,10 @@ class ShopPageTest extends TestCase
 
     /**
      * Tests shop page rendering.
+     *
+     * @return void
      */
-    public function testShopPageRendering()
+    public function testShopPageRendering(): void
     {
         $response = $this->get('/shop');
         $response->assertStatus(200);
@@ -25,8 +27,10 @@ class ShopPageTest extends TestCase
 
     /**
      * Tests the featured product
+     *
+     * @return void
      */
-    public function testFeaturedProductDisplayed()
+    public function testFeaturedProductDisplayed(): void
     {
         $featuredProduct = factory(Product::class)->create([
             'featured' => true
@@ -38,8 +42,10 @@ class ShopPageTest extends TestCase
 
     /**
      * Tests the non-featured product is not rendered.
+     *
+     * @return void
      */
-    public function testNotFeaturedProductNotDisplayed()
+    public function testNotFeaturedProductNotDisplayed(): void
     {
         $notFeaturedProduct = factory(Product::class)->create();
 
@@ -49,6 +55,8 @@ class ShopPageTest extends TestCase
 
     /**
      * Tests pagination
+     *
+     * @return void
      */
     public function testPaginationForProducts(): void
     {
@@ -69,6 +77,8 @@ class ShopPageTest extends TestCase
 
     /**
      * Tests the products are sorted by price ASC
+     *
+     * @return void
      */
     public function testLowToHighPriceFilter(): void
     {
@@ -94,6 +104,8 @@ class ShopPageTest extends TestCase
 
     /**
      * Tests the products are sorted by price DESC
+     *
+     * @return void
      */
     public function testHighToLowPriceFilter(): void
     {

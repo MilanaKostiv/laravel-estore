@@ -16,6 +16,7 @@ class CategoriesTest extends TestCase
 
     /**
      * Tests the products are displayed in their categories.
+     *
      * @return void
      */
     public function testCategoryPageShowsCorrectProducts(): void

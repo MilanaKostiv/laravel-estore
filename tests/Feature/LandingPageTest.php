@@ -45,7 +45,7 @@ class LandingPageTest extends TestCase
      *
      * @return void
      */
-    public function testNonFeaturedProductNotDisplayed()
+    public function testNonFeaturedProductNotDisplayed(): void
     {
         $notFeaturedProduct = factory(Product::class)->create();
 
