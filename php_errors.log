@@ -36,3 +36,9 @@ Stack trace:
 [08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'slug' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
 [08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
 [08-Jan-2021 00:27:40 UTC] PHP Notice:  Trying to get property 'name' of non-object in C:\Apache24\htdocs\lshopclean.local\tests\Feature\CategoriesTest.php on line 49
+[12-Jan-2021 02:05:08 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 2
+[12-Jan-2021 02:05:15 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 2
+[12-Jan-2021 02:05:19 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 2
+[12-Jan-2021 02:05:22 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 2
+[12-Jan-2021 02:05:29 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 2
+[12-Jan-2021 02:05:36 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in C:\Apache24\htdocs\lshopclean.local\public\index.php on line 2

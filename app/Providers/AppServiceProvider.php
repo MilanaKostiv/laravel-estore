@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+use Laravel\Dusk\DuskServiceProvider;
 
 use App\Services\Payment\PaymentFactory;
 use App\Services\Payment\PaymentFactoryInterface;
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
             ->give(function () {
                 return new PaymentFactory();
             });
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 
     /**
